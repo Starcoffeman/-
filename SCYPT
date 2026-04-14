@@ -1,0 +1,103 @@
+-- ============================================
+-- 1. Таблица ролей пользователей
+-- ============================================
+CREATE TABLE Roles (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(50) NOT NULL UNIQUE  -- Guest, User, Manager, Admin
+);
+GO
+
+-- ============================================
+-- 2. Таблица пользователей
+-- ============================================
+CREATE TABLE Users (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Login NVARCHAR(100) NOT NULL UNIQUE,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    FullName NVARCHAR(200) NOT NULL,
+    RoleId INT NOT NULL,
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (RoleId) REFERENCES Roles(Id)
+);
+GO
+
+-- ============================================
+-- 3. Таблица типов продукции
+-- ============================================
+CREATE TABLE ProductTypes (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL UNIQUE
+);
+GO
+
+-- ============================================
+-- 4. Таблица продукции
+-- ============================================
+CREATE TABLE Products (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(200) NOT NULL,
+    ProductTypeId INT NOT NULL,
+    Description NVARCHAR(MAX),
+    Composition NVARCHAR(MAX),
+    Price DECIMAL(18,2) NOT NULL CHECK (Price >= 0),
+    Discount DECIMAL(5,2) DEFAULT 0 CHECK (Discount >= 0 AND Discount <= 100),
+    ImagePath NVARCHAR(500),
+    MinStock INT DEFAULT 0,
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (ProductTypeId) REFERENCES ProductTypes(Id)
+);
+GO
+
+-- ============================================
+-- 5. Таблица статусов заказов
+-- ============================================
+CREATE TABLE OrderStatuses (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(50) NOT NULL UNIQUE  -- New, Processing, Shipped, Delivered, Cancelled
+);
+GO
+
+-- ============================================
+-- 6. Таблица заказов
+-- ============================================
+CREATE TABLE Orders (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    OrderNumber NVARCHAR(50) NOT NULL UNIQUE,
+    UserId INT NOT NULL,
+    OrderStatusId INT NOT NULL DEFAULT 1,
+    DeliveryAddress NVARCHAR(500) NOT NULL,
+    OrderDate DATETIME DEFAULT GETDATE(),
+    DeliveryDate DATETIME,
+    TotalAmount DECIMAL(18,2) NOT NULL,
+    FOREIGN KEY (UserId) REFERENCES Users(Id),
+    FOREIGN KEY (OrderStatusId) REFERENCES OrderStatuses(Id)
+);
+GO
+
+-- ============================================
+-- 7. Таблица элементов заказа
+-- ============================================
+CREATE TABLE OrderItems (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    OrderId INT NOT NULL,
+    ProductId INT NOT NULL,
+    Quantity INT NOT NULL CHECK (Quantity > 0),
+    PriceAtTime DECIMAL(18,2) NOT NULL,
+    DiscountAtTime DECIMAL(5,2) DEFAULT 0,
+    FOREIGN KEY (OrderId) REFERENCES Orders(Id) ON DELETE CASCADE,
+    FOREIGN KEY (ProductId) REFERENCES Products(Id)
+);
+GO
+
+-- ============================================
+-- 8. Таблица корзины (временная)
+-- ============================================
+CREATE TABLE CartItems (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,
+    ProductId INT NOT NULL,
+    Quantity INT NOT NULL CHECK (Quantity > 0),
+    AddedAt DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (UserId) REFERENCES Users(Id) ON DELETE CASCADE,
+    FOREIGN KEY (ProductId) REFERENCES Products(Id)
+);
