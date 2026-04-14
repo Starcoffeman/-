@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e4bcf103c9fd49abbc53ad77a794530d" Name="Diagram1">
+        <EntityTypeShape EntityType="DBModel.CartItems" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.OrderItems" Width="1.5" PointX="10.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Orders" Width="1.5" PointX="8.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.OrderStatuses" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Products" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.ProductTypes" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Roles" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Users" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <AssociationConnector Association="DBModel.FK__CartItems__Produ__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__CartItems__UserI__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__OrderItem__Order__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__OrderItem__Produ__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__Orders__OrderSta__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__Orders__UserId__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__Products__Produc__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK__Users__RoleId__3C69FB99" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
